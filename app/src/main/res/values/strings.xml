@@ -2,10 +2,10 @@
     <string name="app_name">Quiz</string>
     <string name="true_button">Verdadero</string>
     <string name="false_button">Falso</string>
-    <string name="Points">Puntaje:</string>
-    <string name="correct_toast">Correcto</string>
-    <string name="incorrect_toast">Incorrecto</string>
-    <string name="next_button">Saltar</string>
+    <string name="Points">Puntaje: %1$d</string>
+    <string name="correct_snack">Correcto</string>
+    <string name="incorrect_snack">Incorrecto</string>
+    <string name="next_button">Continuar</string>
     <string name="question_welcome">Bienvenido. Estas listo!!!</string>
     <string name="question_biggest">El pais mas grande del mundo es rusia</string>
     <string name="question_pizza">La pizza es originaria de Estados Unidos</string>
