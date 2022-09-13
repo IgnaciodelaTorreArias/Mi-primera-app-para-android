@@ -18,64 +18,45 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val quizViewModel:QuizViewModel by viewModels()
 
-    private  val questionBank = listOf<Question>(
-        Question(R.string.question_welcome, true),
-        Question(R.string.question_biggest, true),
-        Question(R.string.question_pizza, false),
-        Question(R.string.question_google, false),
-        Question(R.string.question_colores, false)
-    )
-    private var answeredQuestions = mutableListOf<Question>()
-    private var currentIndex: Int = 0
-    private var points: Int = 0
-
     private fun updateQuestion(){
-        val questionTextResId = questionBank[currentIndex].textResId
-        binding.questionTextView.setText(questionTextResId)
-        val answerIndex = answeredQuestions.indexOf(questionBank[currentIndex])
-        var message = getString(R.string.Points, points)
-        if (answerIndex != -1){
-            message = if (answeredQuestions[answerIndex].answer) {
+        val currentQuestion = quizViewModel.currentQuestion
+        binding.questionTextView.setText(currentQuestion.textResId)
+        var message:String = getString(R.string.Points, quizViewModel.points)
+        if (quizViewModel.done()) {
+            message = if (quizViewModel.userAnswer()) {
                 getString(R.string.correct_snack) + "\n" + message
             } else {
                 getString(R.string.incorrect_snack) + "\n" + message
             }
-            binding.counterPoints.setText(message)
-        } else {
-            binding.counterPoints.setText(message)
         }
+        binding.counterPoints.setText(message)
     }
     private fun nextQuestion(){
-        currentIndex = (currentIndex+1) % questionBank.size
+        quizViewModel.next()
         updateQuestion()
     }
-    private fun beforeQuestion(){
-        currentIndex = (currentIndex+questionBank.size-1) % questionBank.size
+    private  fun beforeQuestion(){
+        quizViewModel.previous()
         updateQuestion()
     }
     private fun checkanswer(answer: Boolean, view: View){
-        if (answeredQuestions.contains(questionBank[currentIndex])){
+        if (quizViewModel.done()){
             nextQuestion()
             return
         }
-        val message = if(questionBank[currentIndex].answer == answer) {
+        val validation = quizViewModel.validate(answer)
+        val message = if(validation) {
             R.string.correct_snack
         } else {
             R.string.incorrect_snack
         }
         val mySnack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        answeredQuestions.add(questionBank[currentIndex])
-        if(questionBank[currentIndex].answer == answer) {
-            points += 1
+        if(validation) {
             mySnack.setBackgroundTint(getColor(R.color.green))
-            answeredQuestions.last().answer = true
         }else{
             mySnack.setBackgroundTint(getColor(R.color.red))
-            answeredQuestions.last().answer = false
         }
         mySnack.show()
-        binding.counterPoints.setText(getString(R.string.Points, points))
-
         nextQuestion()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        binding.questionTextView.setText(getString(R.string.question_welcome))
+        updateQuestion()
 
         binding.nextButton.setOnClickListener {
             nextQuestion()
