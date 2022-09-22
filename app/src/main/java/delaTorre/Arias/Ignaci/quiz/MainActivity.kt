@@ -1,20 +1,14 @@
 package delaTorre.Arias.Ignaci.quiz
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
 import delaTorre.Arias.Ignaci.quiz.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var trueButton: Button
-    private lateinit var falseButton: Button
     private lateinit var binding: ActivityMainBinding
     private val quizViewModel:QuizViewModel by viewModels()
 
@@ -39,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         quizViewModel.previous()
         updateQuestion()
     }
-    private fun checkanswer(answer: Boolean, view: View){
+    private fun checkAnswer(answer: Boolean, view: View){
         if (quizViewModel.done()){
             nextQuestion()
             return
@@ -61,9 +55,6 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate(Bundle?) called")
-
-        Log.d(TAG, "Gpt a QuizViewModel: $quizViewModel")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
@@ -77,40 +68,11 @@ class MainActivity : AppCompatActivity() {
             beforeQuestion()
         }
         binding.trueButton.setOnClickListener { view: View ->
-            checkanswer(true, view)
+            checkAnswer(true, view)
         }
         binding.falseButton.setOnClickListener { view: View ->
-            checkanswer(false, view)
+            checkAnswer(false, view)
         }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG, "onStart() called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "onPause() called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop() called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG, "onDestroy() called")
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
     }
 }
