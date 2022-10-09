@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="Points">Points: %1$d</string>
+    <string name="correct_snack">Correct</string>
+    <string name="incorrect_snack">Incorrect</string>
+    <string name="next_button">Next</string>
+    <string name="before_button">Previous</string>
+    <string name="cheat_button">Cheat!</string>
+    <string name="judgement_toast">Cheating is wrong</string>
+    <string name="show_answer_button">Show answer</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+</resources>

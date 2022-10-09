@@ -1,13 +1,17 @@
 package delaTorre.Arias.Ignaci.quiz
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import delaTorre.Arias.Ignaci.quiz.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityMainBinding
     private val quizViewModel:QuizViewModel by viewModels()
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 getString(R.string.incorrect_snack) + "\n" + message
             }
         }
-        binding.counterPoints.setText(message)
+        binding.counterPoints.text = message
     }
     private fun nextQuestion(){
         quizViewModel.next()
@@ -38,20 +42,23 @@ class MainActivity : AppCompatActivity() {
             nextQuestion()
             return
         }
-        val validation = quizViewModel.validate(answer)
-        val message = if(validation) {
-            R.string.correct_snack
-        } else {
-            R.string.incorrect_snack
+        val (message,color) = when {
+            quizViewModel.isCheater -> message_color(R.string.judgement_toast, R.color.yellow)
+            quizViewModel.validate(answer) -> message_color(R.string.correct_snack, R.color.green)
+            else -> message_color(R.string.incorrect_snack, R.color.red)
         }
         val mySnack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
-        if(validation) {
-            mySnack.setBackgroundTint(getColor(R.color.green))
-        }else{
-            mySnack.setBackgroundTint(getColor(R.color.red))
-        }
+        mySnack.setBackgroundTint(getColor(color))
         mySnack.show()
         nextQuestion()
+    }
+    private val cheatLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            quizViewModel.isCheater =
+                result.data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +80,11 @@ class MainActivity : AppCompatActivity() {
         binding.falseButton.setOnClickListener { view: View ->
             checkAnswer(false, view)
         }
+        binding.cheatButton.setOnClickListener {
+            val answerIsTrue = quizViewModel.currentQuestion.answer
+            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+            cheatLauncher.launch(intent)
 
+        }
     }
 }

@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "delaTorre.Arias.Ignaci.quiz"
         minSdk 27
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -32,6 +32,7 @@ android {
     buildFeatures{
         viewBinding true
     }
+    namespace 'delaTorre.Arias.Ignaci.quiz'
 }
 
 dependencies {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quiz</string>
+    <string name="app_name" translatable="false">Quiz</string>
     <string name="true_button">Verdadero</string>
     <string name="false_button">Falso</string>
     <string name="Points">Puntaje: %1$d</string>
@@ -7,9 +7,13 @@
     <string name="incorrect_snack">Incorrecto</string>
     <string name="next_button">Siguiente</string>
     <string name="before_button">Anterior</string>
-    <string name="question_welcome">Bienvenido. Estas listo!!!</string>
-    <string name="question_biggest">El pais mas grande del mundo es rusia</string>
-    <string name="question_pizza">La pizza es originaria de Estados Unidos</string>
-    <string name="question_google">Google se fundo en 1989</string>
-    <string name="question_colores">El negro es un color primario</string>
+    <string name="question_welcome" translatable="false">Bienvenido. Estas listo!!!</string>
+    <string name="question_biggest" translatable="false">El pais mas grande del mundo es rusia</string>
+    <string name="question_pizza" translatable="false">La pizza es originaria de Estados Unidos</string>
+    <string name="question_google" translatable="false">Google se fundo en 1989</string>
+    <string name="question_colores" translatable="false">El negro es un color primario</string>
+    <string name="warning_text">Estas seguro de que quieres hacer esto?</string>
+    <string name="show_answer_button">Mostrar respuesta</string>
+    <string name="cheat_button">Hacer trampa</string>
+    <string name="judgement_toast">Hacer trampa esta mal</string>
 </resources>
